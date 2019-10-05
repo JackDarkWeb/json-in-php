@@ -96,19 +96,34 @@ $all_messages = json_decode($all_messages, true);
         });
 
         $(document).on('click', '.close',function () {
-            const id = $(this).attr('id');
-            //alert(id)
-            $.ajax({
-                url: 'delete.php',
-                method: 'POST',
-                dataType: 'json',
-                async: true,
-                cache: false,
-                data: {id: id},
-                success: function (response) {
-                    window.location.href = './';
+
+            if(confirm("You are really want to delete ? ")){
+
+                const login = prompt('Enter your login');
+                const pass = prompt('Enter your password');
+                if(login === 'admin' && pass === 'root'){
+
+                    const id = $(this).attr('id');
+                    //alert(id)
+                    $.ajax({
+                        url: 'delete.php',
+                        method: 'POST',
+                        dataType: 'json',
+                        async: true,
+                        cache: false,
+                        data: {id: id},
+                        success: function (response) {
+                            window.location.href = './';
+                        }
+                    });
+                }else{
+                    alert('You do not have permission');
                 }
-            });
+            }
+
+
+
+
         });
 
 
