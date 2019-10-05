@@ -1,6 +1,7 @@
 <?php
 $all_messages = file_get_contents('messages.json');
 $all_messages = json_decode($all_messages, true);
+//var_dump($all_messages[2]);
 ?>
 <!doctype html>
 <html lang="en">
@@ -61,8 +62,9 @@ $all_messages = json_decode($all_messages, true);
         </form>
     </div>
 
-    <?php foreach ($all_messages as $message) : ?>
+    <?php foreach ($all_messages as $item => $message) : ?>
        <div class="content mt-4">
+           <button type="button" class="close text-danger" id="<?=$message['id']?>" data-dismiss="alert">&times;</button>
            <div class="d-inline">
               <p>
                   <img src="profile.jpg" style="width:30px; height: 30px; border-radius: 50%">
@@ -92,6 +94,23 @@ $all_messages = json_decode($all_messages, true);
                $('#send').click();
            }
         });
+
+        $(document).on('click', '.close',function () {
+            const id = $(this).attr('id');
+            //alert(id)
+            $.ajax({
+                url: 'delete.php',
+                method: 'POST',
+                dataType: 'json',
+                async: true,
+                cache: false,
+                data: {id: id},
+                success: function (response) {
+                    window.location.href = './';
+                }
+            });
+        });
+
 
 
         $(document).on('submit', '#form', function (e) {
