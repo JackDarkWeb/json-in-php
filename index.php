@@ -1,7 +1,13 @@
 <?php
+require_once 'counter.php';
+
 $all_messages = file_get_contents('messages.json');
 $all_messages = json_decode($all_messages, true);
 //var_dump($all_messages[2]);
+add_view('127.0.0.1', '12547');
+
+$view = number_views();
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -39,11 +45,12 @@ $all_messages = json_decode($all_messages, true);
 <body>
 
 <div class="container">
+    <p><strong><?=($view > 1)? "$view visites" : "1 visite"?></strong></p>
     <div class="alert alert-danger alert-dismissible d-none">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
     </div>
     <div class="contact-box mt-4">
-        <form method="post" action="" id="form">
+        <form method="post" action="test.php" id="form">
             <div class="form-group">
                 <label for="name">Your name</label>
                 <input type="text" name="name" class="form-control" id="name" placeholder="John Doe">
@@ -76,7 +83,8 @@ $all_messages = json_decode($all_messages, true);
        </div>
     <?php endforeach;?>
 
-
+<p><a href="?id=1425">Lien 1</a> </p>
+<p><a href="?id=1426">Lien 1</a> </p>
 </div>
 
 <!-- Optional JavaScript -->
@@ -128,7 +136,7 @@ $all_messages = json_decode($all_messages, true);
 
 
 
-        $(document).on('submit', '#form', function (e) {
+       /* $(document).on('submit', '#form', function (e) {
 
             const form = $(this);
             const name = form.find('#name').val();
@@ -157,7 +165,7 @@ $all_messages = json_decode($all_messages, true);
                 }
             });
             return false;
-        });
+        });*/
     });
 </script>
 </body>
