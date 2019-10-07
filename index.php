@@ -4,7 +4,7 @@ require_once 'counter.php';
 $all_messages = file_get_contents('messages.json');
 $all_messages = json_decode($all_messages, true);
 //var_dump($all_messages[2]);
-add_view('127.0.0.1', '12547');
+add_view('127.0.0.3', '12547');
 
 $view = number_views();
 

@@ -1,28 +1,11 @@
 <?php
 
 function add_view($ip_addr, $article_id){
-    $file = 'data/messages.txt';
-
-    $date = time();
-    $data = "$ip_addr#$article_id#$date";
-
-    if($id = fopen($file, 'r')){
-
-        while ($line = fgets($id, 100)){
-            $tab = explode('#', $line);
-            var_dump($tab);
-           /* if(in_array($ip_addr, $tab) == false && in_array($article_id, $tab) == false){
-                var_dump($tab);
-                $action = action($file, $data);
-                if($action === 'true'){
-                    counter();
-                }else{
-                    echo $action;
-                }
-            }*/
-        }
-
-        fclose($id);
+    $row = row($ip_addr);
+    $t = time();
+    if($row === 0){
+        insert($ip_addr, $article_id, $t);
+        counter();;
     }
 }
 
@@ -63,4 +46,19 @@ function counter(){
         file_put_contents($file, $counter);
     }
     file_put_contents($file, $counter);
+}
+
+function row($ip_addr){
+
+    $db = new PDO('mysql:host=localhost; dbname=counters; charset=utf8', 'root', '');
+    $get = $db->prepare('SELECT * FROM users WHERE ip = ?');
+    $get->execute(array($ip_addr));
+    $row  = $get->rowCount();
+    return $row;
+}
+function insert($ip_addr, $article_id, $t){
+
+    $db = new PDO('mysql:host=localhost; dbname=counters; charset=utf8', 'root', '');
+    $get = $db->prepare("INSERT INTO  users(ip, article_id, temps) VALUES(?,?,?)");
+    $get->execute(array($ip_addr, $article_id, $t));
 }
